@@ -68,10 +68,21 @@ def helper2(report: list, depth):
                     continue
                 else:
                     return 0
+
+        if inc > 0 and dec > 0:
+            report_copy = report.copy()
+            report_copy.pop(i)
+            if helper2(report_copy, depth+1) == 1:
+                if last > number:
+                    dec = 0
+                else:
+                    inc = 0
+                continue
+            else:
+                return 0
+
         last = number
 
-    if inc > 0 and dec > 0:
-        return 0   
     return 1
 
 
@@ -93,5 +104,5 @@ def part2():
 
 
 if __name__ == "__main__":
-    part1()
-    # part2()
+    # part1()
+    part2()
