@@ -26,80 +26,52 @@ def helper1(report: list):
         last = number
 
     if inc > 0 and dec > 0:
-        return 0   
-    return 1
-
-def helper2(report: list, depth):
-    inc = 0
-    dec = 0
-    last = 0
-
-    if depth > 1:
         return 0
-
-    for i in range(len(report)):
-        number = int(report[i])
-
-        if last == 0:
-            last = number
-            continue
-        if last == number:
-            report_copy = report.copy()
-            report_copy.pop(i)
-            if helper2(report_copy, depth+1) == 1:
-                continue
-            else:
-                return 0
-        if last > number:
-            dec += 1
-            if (last - 3) > number:
-                report_copy = report.copy()
-                report_copy.pop(i)
-                if helper2(report_copy, depth+1) == 1:
-                    continue
-                else:
-                    return 0
-        if last < number:
-            inc += 1
-            if (last + 3) < number:
-                report_copy = report.copy()
-                report_copy.pop(i)
-                if helper2(report_copy, depth+1) == 1:
-                    continue
-                else:
-                    return 0
-
-        if inc > 0 and dec > 0:
-            report_copy = report.copy()
-            report_copy.pop(i)
-            if helper2(report_copy, depth+1) == 1:
-                if last > number:
-                    dec = 0
-                else:
-                    inc = 0
-                continue
-            else:
-                return 0
-
-        last = number
-
     return 1
+
+def helper2(report: list):
+    def checker(arr: list):
+        inc = 0
+        dec = 0
+        last = 0
+        for i in range(len(report)):
+            number = report[i]
+
+            if last == 0:
+                last = number
+                continue
+            if last == number:
+                return [0, i]
+            if last > number:
+                if (last - 3) > number:
+                    return [0, i]
+                dec += 1
+            if last < number:
+                inc += 1
+                if (last + 3) < number:
+                    return [0, i]
+            last = number
+
+            if inc > 0 and dec > 0:
+                return 0
+            return [1, -1]
 
 
 def part1():
     safe = 0
     for line in data:
-        if (helper1(line.split(" ")) == 1):
+        result = helper1(line.split(" "))
+        if (result == 1):
             safe += 1
+
     print(safe)
 
 def part2():
     safe = 0
     for line in data:
-        if (helper2(line.split(" "), 0) == 1):
+        if (helper2(line.split(" ")) == 1):
             safe += 1
     print(safe)
-            
 
 
 
